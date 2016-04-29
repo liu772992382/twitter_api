@@ -111,7 +111,7 @@ plt.ylabel('Freq')
 plt.xlabel('Word Rank')
 
 
-#生成直方图
+#生成单词、昵称、主题标签直方图
 for label,data in(('Words',words),
 					('Screen Names',screen_names),
 					('Hashtags',hashtags)):
@@ -123,3 +123,14 @@ for label,data in(('Words',words),
 	plt.xlabel('Bins (number of times an item appeared)')
 
 	plt.figure()
+
+
+#生成转推次数直方图
+counts = [count for count,_, _ in retweets]
+
+plt.hist(counts)
+plt.title('Retweets')
+plt.xlabel('Bins (number of times retweeted)')
+plt.ylabel('Number of tweets in bin')
+
+print counts
