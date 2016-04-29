@@ -3,7 +3,7 @@
 from myoauth import *
 import json
 
-q = '#NationalSuperheroDay' #搜索字符：也可以是关键字，推文发送者、推文相关地点
+q = '#FlyinSeoul' #搜索字符：也可以是关键字，推文发送者、推文相关地点
 
 count = 100
 
@@ -86,3 +86,40 @@ print lexical_diversity(words)
 print lexical_diversity(screen_names)
 print lexical_diversity(hashtags)
 print average_words(status_texts)
+
+#1.4.4检视转推模式
+
+retweets = [(status['retweet_count'],
+			status['retweeted_status']['user']['screen_name'],
+			status['text'])
+
+			for status in statuses
+				if status.has_key('retweeted_status')]
+
+pt = PrettyTable(field_names=['Count','Screen Name','Text'])
+[pt.add_row(row)for row in sorted(retweets,reverse=True)[:5]]
+pt.align = 'l'
+print pt
+
+#1.4.5使用直方图将频率数据可视化
+import matplotlib.pyplot as plt
+
+word_counts = sorted(Counter(words).values(),reverse=True)
+
+plt.loglog(word_counts)
+plt.ylabel('Freq')
+plt.xlabel('Word Rank')
+
+
+#生成直方图
+for label,data in(('Words',words),
+					('Screen Names',screen_names),
+					('Hashtags',hashtags)):
+	c = Counter (data)
+	plt.hist(c.values())
+
+	plt.title(label)
+	plt.ylabel('Number of items in bin')
+	plt.xlabel('Bins (number of times an item appeared)')
+
+	plt.figure()
